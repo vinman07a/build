@@ -64,7 +64,7 @@ $(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := $(TARGET_NDK_VERSION)
 endif
 
 # Allow a second arch combo to override the ROM toolchain version
-ifdef 2ND_TARGET_SM_AND_VERSION
+ifdef 2ND_TARGET_SM_AND
 $(combo_2nd_arch_prefix)TARGET_AND_GCC_VERSION := $(2ND_TARGET_SM_AND)
 endif
 
