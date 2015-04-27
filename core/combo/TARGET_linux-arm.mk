@@ -104,8 +104,11 @@ $(combo_2nd_arch_prefix)TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 # Modules can choose to compile some source as arm.
 $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS :=    -O2 \
                         -fomit-frame-pointer \
-                        -fstrict-aliasing    \
                         -funswitch-loops
+
+ifeq ($(strip $(ENABLE_STRICT_ALIASING)),true)
+  $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS += -fstrict-aliasing
+endif
 
 # Modules can choose to compile some source as thumb.
 $(combo_2nd_arch_prefix)TARGET_thumb_CFLAGS :=  -mthumb \
