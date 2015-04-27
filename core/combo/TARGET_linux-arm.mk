@@ -102,9 +102,11 @@ $(combo_2nd_arch_prefix)TARGET_STRIP := $($(combo_2nd_arch_prefix)TARGET_AND_TOO
 $(combo_2nd_arch_prefix)TARGET_NO_UNDEFINED_LDFLAGS := -Wl,--no-undefined
 
 # Modules can choose to compile some source as arm.
-$(combo_2nd_arch_prefix)TARGET_arm_CFLAGS :=    -O2 \
-                        -fomit-frame-pointer
+$(combo_2nd_arch_prefix)TARGET_arm_CFLAGS := -fomit-frame-pointer
 
+ifneq ($(strip $(O3_OPTIMIZATIONS)),true)
+  $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS += -O2 -g
+endif
 ifeq ($(strip $(ENABLE_STRICT_ALIASING)),true)
   $(combo_2nd_arch_prefix)TARGET_arm_CFLAGS += -fstrict-aliasing
 endif
@@ -182,11 +184,12 @@ $(combo_2nd_arch_prefix)TARGET_GLOBAL_CPPFLAGS += -fvisibility-inlines-hidden
 # More flags/options can be added here
 $(combo_2nd_arch_prefix)TARGET_RELEASE_CFLAGS := \
 			-DNDEBUG \
-			-g \
-			-Wstrict-aliasing=2 \
 			-fgcse-after-reload \
-			-frerun-cse-after-loop \
 			-frename-registers
+
+ifneq ($(strip $(O3_OPTIMIZATIONS)),true)
+  TARGET_RELEASE_CFLAGS += -O2 -g
+endif
 
 libc_root := bionic/libc
 libm_root := bionic/libm
